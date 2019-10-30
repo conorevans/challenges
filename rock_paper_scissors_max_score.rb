@@ -1,6 +1,7 @@
 def solution(input_string)
-  gestures = split_into_chars(input_string)
-  counts = counts_hash(gestures)
+  @gestures = split_into_chars(input_string)
+  @counts = { 'R' => 0, 'S' => 0, 'P' => 0 }
+  initialize_counts
   max_total(counts)
 end
 
@@ -15,32 +16,28 @@ end
 
 # get counts of each gesture in input string of gestures
 # in hash form
-def counts_hash(gestures)
-  counts = { 'R' => 0, 'S' => 0, 'P' => 0 }
-  
-  gestures.each do |gesture|
-    counts[gesture] = counts[gesture] + 1
+def initialize_counts
+  @gestures.each do |gesture|
+    @counts[gesture] += 1
   end
-  
-  counts
 end
 
 # get max total possible by playing any individual gesture on each occasion
-def max_total(counts)
-  [rock_points(counts), scissor_points(counts), paper_points(counts)].max
+def max_total
+  [rock_points, scissor_points, paper_points].max
 end
 
 # get max total possible by playing using only rock
-def rock_points(counts)
-  counts['R'] + (counts['S'] * 2)
+def rock_points
+  @counts['R'] + (@counts['S'] * 2)
 end
 
 # get max total possible by playing using only scissors
-def scissor_points(counts)
-  counts['S'] + (counts['P'] * 2)
+def scissor_points
+  @counts['S'] + (@counts['P'] * 2)
 end
 
 # get max total possible by playing using only paper
-def paper_points(counts)
-  counts['P'] + (counts['R'] * 2)
+def paper_points
+  @counts['P'] + (@counts['R'] * 2)
 end
